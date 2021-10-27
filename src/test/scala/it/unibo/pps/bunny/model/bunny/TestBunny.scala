@@ -8,12 +8,12 @@ import org.scalatest.{FlatSpec, Matchers}
 class TestBunny extends FlatSpec with Matchers {
 
   "A FirstBunny" should "be instantiated without exceptions" in {
-    noException should be thrownBy baseBunnyGenerator(randomGenderChooser())
-    noException should be thrownBy randomBunnyGenerator
+    noException should be thrownBy BaseBunnyGenerator(RandomGenderChooser())
+    noException should be thrownBy RandomBunnyGenerator
   }
 
-  private val baseBunny: FirstBunny = baseBunnyGenerator(randomGenderChooser())
-  private val randomBunny: FirstBunny = randomBunnyGenerator()
+  private val baseBunny: FirstBunny = BaseBunnyGenerator(RandomGenderChooser())
+  private val randomBunny: FirstBunny = RandomBunnyGenerator()
 
   it should "have all kind of Genes" in {
     assert(baseBunny.genotype.genes.size == Genes.values.size)
@@ -49,7 +49,7 @@ class TestBunny extends FlatSpec with Matchers {
   }
 
   "Bunnies " should "be splittable by gene" in {
-    val bunnies: List[Bunny] = List.fill(10)(randomBunnyGenerator())
+    val bunnies: List[Bunny] = List.fill(10)(RandomBunnyGenerator())
     Genes.values.foreach(gk => {
       val baseCount = bunnies.count(_.genotype.phenotype(gk) == gk.base)
       val mutatedCount = bunnies.count(_.genotype.phenotype(gk) == gk.mutated)
@@ -61,6 +61,6 @@ class TestBunny extends FlatSpec with Matchers {
 
   it should "be possible to create a lot of them " in {
     val totBunnies = 100000
-    noException should be thrownBy List.fill(totBunnies)(randomBunnyGenerator())
+    noException should be thrownBy List.fill(totBunnies)(RandomBunnyGenerator())
   }
 }

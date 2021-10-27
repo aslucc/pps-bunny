@@ -4,9 +4,10 @@ import it.unibo.pps.bunny.engine.SimulationConstants.MAX_BUNNY_AGE
 import it.unibo.pps.bunny.model.HistoryBunnyUpdateException
 import it.unibo.pps.bunny.model.genome.Alleles.AlleleKind
 import it.unibo.pps.bunny.model.genome.Genes.GeneKind
-import it.unibo.pps.bunny.model.genome.KindsUtils.randomAlleleKindChooser
+import it.unibo.pps.bunny.model.genome.KindsUtils.RandomAlleleKindChooser
 import it.unibo.pps.bunny.model.genome._
 import it.unibo.pps.bunny.model.world.Generation.Population
+import it.unibo.pps.bunny.model.world.Reproduction.Couple
 import it.unibo.pps.bunny.util.PimpScala.RichSeq
 
 sealed trait Gender
@@ -58,11 +59,10 @@ case class ChildBunny(
     override val genotype: CompleteGenotype,
     override val mom: Option[Bunny],
     override val dad: Option[Bunny],
-    override val gender: Gender
-) extends Bunny {
-  override var age: Int = 0
-  override var alive: Boolean = true
-}
+    override val gender: Gender,
+    implicit override var age: Int = 0,
+    implicit override var alive: Boolean = true
+) extends Bunny
 
 /** Represents the first Bunny which appears in the world, so it does not have a mom and a dad. */
 class FirstBunny(genotype: CompleteGenotype, gender: Gender)
@@ -87,12 +87,12 @@ object Bunny {
   /**
    * Function to get a random gender for the Bunny.
    */
-  val randomGenderChooser: () => Gender = () => Seq(Male, Female).random
+  val RandomGenderChooser: () => Gender = () => Seq(Male, Female).random
 
   /**
    * Generator for a [[Bunny]] with the "base" [[AlleleKind]] for each [[GeneKind]]
    */
-  val baseBunnyGenerator: Gender => FirstBunny = gender =>
+  val BaseBunnyGenerator: Gender => FirstBunny = gender =>
     new FirstBunny(
       CompleteGenotype(
         Genes.values.unsorted.map(gk => (gk, Gene(gk, StandardAllele(gk.base), StandardAllele(gk.base)))).toMap
@@ -101,18 +101,24 @@ object Bunny {
     )
 
   /**
+   * Generator for a [[ChildBunny]] with a specific [[Genotype]], [[Gender]] and parents (a [[Couple]]
+   */
+  val ChildBunnyGenerator: (Genotype, Gender, Couple) => ChildBunny =
+    (genotype, gender, parents) => ChildBunny(CompleteGenotype(genotype.genes), Option(parents.mom), Option(parents.dad), gender)
+
+  /**
    * Generator for a [[Bunny]] with a random [[AlleleKind]] for each [[GeneKind]]
    */
-  val randomBunnyGenerator: () => FirstBunny = () => {
+  val RandomBunnyGenerator: () => FirstBunny = () => {
     new FirstBunny(
       CompleteGenotype(
         Genes.values.unsorted
           .map(gk => {
-            (gk, Gene(gk, StandardAllele(randomAlleleKindChooser(gk)), StandardAllele(randomAlleleKindChooser(gk))))
+            (gk, Gene(gk, StandardAllele(RandomAlleleKindChooser(gk)), StandardAllele(RandomAlleleKindChooser(gk))))
           })
           .toMap
       ),
-      randomGenderChooser()
+      RandomGenderChooser()
     )
   }
 

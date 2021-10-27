@@ -14,7 +14,7 @@ import scala.language.{implicitConversions, postfixOps}
 class TestTree extends FlatSpec with Matchers {
 
   "A genealogical tree " should "contain just the bunny as a Leaf, if he has no parents" in {
-    val bunny = randomBunnyGenerator()
+    val bunny = RandomBunnyGenerator()
     val tree = generateTree(MAX_GENEALOGICAL_TREE_GENERATIONS, bunny)
     assert(tree.isInstanceOf[Leaf[Bunny]])
     assert(tree.generations == 1)
@@ -35,7 +35,7 @@ class TestTree extends FlatSpec with Matchers {
     assert(tree.toString == tree.elem.toString)
   }
 
-  private var bunnies: Population = Seq(randomBunnyGenerator())
+  private var bunnies: Population = Seq(RandomBunnyGenerator())
   for (_ <- 0 to MAX_GENEALOGICAL_TREE_GENERATIONS) {
     bunnies = nextGenerationBunnies(bunnies ++ initialCoupleGenerator().toSeq)
   }

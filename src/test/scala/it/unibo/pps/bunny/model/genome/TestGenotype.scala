@@ -1,7 +1,7 @@
 package it.unibo.pps.bunny.model.genome
 
 import it.unibo.pps.bunny.model.{IllegalGenotypeBuildException, InconsistentGenotypeException}
-import it.unibo.pps.bunny.model.bunny.Bunny.{baseBunnyGenerator, randomGenderChooser}
+import it.unibo.pps.bunny.model.bunny.Bunny.{BaseBunnyGenerator, RandomGenderChooser}
 import it.unibo.pps.bunny.model.bunny.FirstBunny
 import it.unibo.pps.bunny.model.genome.Genes.{EARS, FUR_COLOR, FUR_LENGTH, GeneKind}
 import org.scalatest.{FlatSpec, Matchers}
@@ -47,7 +47,7 @@ class TestGenotype extends FlatSpec with Matchers{
     val geneKind = Genes.FUR_COLOR
     val standardGene = Gene(geneKind, StandardAllele(geneKind.base), StandardAllele(geneKind.base))
     val updatedGene = Gene(geneKind, StandardAllele(geneKind.base), StandardAllele(geneKind.mutated))
-    val standardBunny = baseBunnyGenerator(randomGenderChooser())
+    val standardBunny = BaseBunnyGenerator(RandomGenderChooser())
     val updatedBunny = new FirstBunny(standardBunny.genotype + updatedGene, standardBunny.gender)
 
     println(standardBunny.genotype(geneKind))

@@ -58,13 +58,13 @@ object PedigreeChart {
    *   the [[PedigreeChart]]
    */
   def apply(bunny: Bunny, chartWidth: Int, chartHeight: Int): PedigreeChart = {
-    val dims = dimensions(chartWidth, chartHeight, actualGenerations(bunny))
+    val dims = Dimensions(chartWidth, chartHeight, actualGenerations(bunny))
     bunnyIconSize = dims._1
     val tree = generateTree(dims._2, bunny)
     PedigreeChartImpl(bunny, tree)
   }
 
-  private val dimensions: (Int, Int, Int) => (IconSize, Generations) = (chartWidth, chartHeight, treeGenerations) => {
+  private val Dimensions: (Int, Int, Int) => (IconSize, Generations) = (chartWidth, chartHeight, treeGenerations) => {
     val BunnySizeIndex = 8
     val GenerationsIndex = 9
     val engine: Term => Option[Term] = SingleSolutionPrologEngine("prolog/pedigree_dim.pl")
@@ -89,19 +89,19 @@ object PedigreeChart {
     val row = new HBox {
       alignment = Pos.Center
       maxHeight = bunnyIconSize
-      children = spacingGenerator()
+      children = SpacingGenerator()
     }
 
     trees.foreach(tree => {
       if (tree ?) row.children += BunnyPedigreeView(tree.get.elem).pane
-      else row.children += emptyBunnyGenerator()
+      else row.children += EmptyBunnyGenerator()
 
       index += 1
       if (index < trees.size) {
-        row.children += spacingGenerator()
-        if (index % 2 == 1 && (tree ?)) row.children += plusViewGenerator() else row.children += emptyPlusGenerator()
+        row.children += SpacingGenerator()
+        if (index % 2 == 1 && (tree ?)) row.children += PlusViewGenerator() else row.children += EmptyPlusGenerator()
       }
-      row.children += spacingGenerator()
+      row.children += SpacingGenerator()
 
       if ((tree ?) && tree.get.isInstanceOf[Node[Bunny]]) {
         nextTrees ++= Seq(
@@ -116,26 +116,26 @@ object PedigreeChart {
   }
 
   /** Creates a spacing region to justify the rows of bunnies */
-  val spacingGenerator: () => Region = () =>
+  val SpacingGenerator: () => Region = () =>
     new Region {
       hgrow = Priority.Always
     }
 
   /** Creates an empty ImageView with the same size of the bunny, for the bunnies with no ancient relatives */
-  private val emptyBunnyGenerator: () => ImageView = () =>
+  private val EmptyBunnyGenerator: () => ImageView = () =>
     new ImageView {
       fitWidth = bunnyIconSize
     }
 
   /** Creates an empty Text with the same size of the plus, for the bunnies with no ancient relatives */
-  private val emptyPlusGenerator: () => Text = () => {
-    val txt = plusViewGenerator()
+  private val EmptyPlusGenerator: () => Text = () => {
+    val txt = PlusViewGenerator()
     txt setVisible false
     txt
   }
 
   /** Creates a view of the plus between couples of bunnies */
-  private val plusViewGenerator: () => Text = () =>
+  private val PlusViewGenerator: () => Text = () =>
     new Text {
       text = "+"
       style = "-fx-font-weight: bold; -fx-font-size: " + bunnyIconSize / BUNNY_PLUS_PROPORTION + ";"
@@ -161,7 +161,7 @@ object PedigreeChart {
     addChosenBunnyStyle(rows.head.children(1))
 
     override val chartPane: VBox = new VBox {
-      children = spacingGenerator() +: rows.reverse :+ spacingGenerator()
+      children = SpacingGenerator() +: rows.reverse :+ SpacingGenerator()
       alignment = Pos.Center
     }
 
