@@ -58,11 +58,10 @@ case class ChildBunny(
     override val genotype: CompleteGenotype,
     override val mom: Option[Bunny],
     override val dad: Option[Bunny],
-    override val gender: Gender
-) extends Bunny {
-  override var age: Int = 0
-  override var alive: Boolean = true
-}
+    override val gender: Gender,
+    implicit override var age: Int = 0,
+    implicit override var alive: Boolean = true
+) extends Bunny
 
 /** Represents the first Bunny which appears in the world, so it does not have a mom and a dad. */
 class FirstBunny(genotype: CompleteGenotype, gender: Gender)
