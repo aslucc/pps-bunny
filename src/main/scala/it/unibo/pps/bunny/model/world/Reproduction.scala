@@ -62,7 +62,7 @@ object Reproduction {
   /**
    * Creates the bunnies with the complete genotypes, half of them are going to be Males and half Females
    * @param genotypes the genotypes of the children
-   * @param couple the parents of the children
+   * @param parents the parents of the children
    * @return the population of children
    */
   private def generateChildrenBunnies(genotypes: List[Genotype], parents: Couple): Population = {
@@ -73,7 +73,7 @@ object Reproduction {
   /**
    * Create 4 new genes from the parents alleles, in random order,
    * and substitute one of them if there is mutation o the genekind
-   * @param couple the parents of the children
+   * @param parents the parents of the children
    * @param isMutated true if one gene needs to be mutated
    * @param gk the GeneKind of the Genes
    * @return a Gene of the GeneKind for each children
