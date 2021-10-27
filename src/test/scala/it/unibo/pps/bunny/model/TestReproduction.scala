@@ -12,15 +12,15 @@ class TestReproduction extends FlatSpec with Matchers {
 
   "A couple" should "have one Male and one Female Bunny" in {
     assertThrows[CoupleGendersException] {
-      Couple(baseBunnyGenerator(Male), baseBunnyGenerator(Male))
+      Couple(BaseBunnyGenerator(Male), BaseBunnyGenerator(Male))
     }
     assertThrows[CoupleGendersException] {
-      Couple(baseBunnyGenerator(Female), baseBunnyGenerator(Female))
+      Couple(BaseBunnyGenerator(Female), BaseBunnyGenerator(Female))
     }
   }
 
   "Couples of bunnies " should "be generabile from any group of bunnies with males and females" in {
-    val someBunnies = Seq.fill(9)(randomBunnyGenerator())
+    val someBunnies = Seq.fill(9)(RandomBunnyGenerator())
     val someCouples = combineCouples(someBunnies)
     if (someBunnies.count(_.gender == Male) > 0 && someBunnies.count(_.gender == Female) > 0) {
       assert(someCouples.nonEmpty)
@@ -30,26 +30,26 @@ class TestReproduction extends FlatSpec with Matchers {
   }
 
   they should "contain all the possible couples" in {
-    val someBunnies = Seq.fill(10)(randomBunnyGenerator())
+    val someBunnies = Seq.fill(10)(RandomBunnyGenerator())
     val someCouples = combineCouples(someBunnies)
     assert(someCouples.size == math.min(someBunnies.count(_.gender == Male), someBunnies.count(_.gender == Female)))
   }
 
   they should "only contain bunnies of the original group" in {
-    val someBunnies = Seq.fill(11)(randomBunnyGenerator())
+    val someBunnies = Seq.fill(11)(RandomBunnyGenerator())
     val bunniesInCouples = combineCouples(someBunnies).flatMap(_.toSeq)
     bunniesInCouples.foreach(b => assert(someBunnies.contains(b)))
   }
 
   they should "be empty, if there was only one bunny" in {
-    val oneBunny = Seq(randomBunnyGenerator())
+    val oneBunny = Seq(RandomBunnyGenerator())
     val bunniesInCouples = combineCouples(oneBunny)
     assert(bunniesInCouples.isEmpty)
   }
 
   they should "be empty, if there was bunnies of only one gender" in {
-    val gender = randomGenderChooser()
-    val sameGenderBunnies = Seq.fill(5)(baseBunnyGenerator(gender))
+    val gender = RandomGenderChooser()
+    val sameGenderBunnies = Seq.fill(5)(BaseBunnyGenerator(gender))
     val bunniesInCouples = combineCouples(sameGenderBunnies)
     assert(bunniesInCouples.isEmpty)
   }
@@ -90,7 +90,7 @@ class TestReproduction extends FlatSpec with Matchers {
   }
 
   private val bunniesNum = 20
-  private val bunnies: Seq[Bunny] = Seq.fill(bunniesNum)(randomBunnyGenerator())
+  private val bunnies: Seq[Bunny] = Seq.fill(bunniesNum)(RandomBunnyGenerator())
   private val couplesNum: Int = combineCouples(bunnies).size
 
   "Children of all bunnies" should "be 4 for each couple" in {
@@ -99,7 +99,7 @@ class TestReproduction extends FlatSpec with Matchers {
   }
 
   they should "be zero if there were no couples and just one bunny" in {
-    val oneBunny = Seq(randomBunnyGenerator())
+    val oneBunny = Seq(RandomBunnyGenerator())
     val children = generateAllChildren(oneBunny)
     assert(children.isEmpty)
   }
@@ -111,12 +111,12 @@ class TestReproduction extends FlatSpec with Matchers {
   }
 
   it should "contain just one bunny if there was only one" in {
-    assert(nextGenerationBunnies(Seq(randomBunnyGenerator())).size == 1)
+    assert(nextGenerationBunnies(Seq(RandomBunnyGenerator())).size == 1)
   }
 
   it should "contain just the original bunnies if they were all of the same gender" in {
-    assert(nextGenerationBunnies(List.fill(10)(baseBunnyGenerator(Male))).size == 10)
-    assert(nextGenerationBunnies(List.fill(10)(baseBunnyGenerator(Female))).size == 10)
+    assert(nextGenerationBunnies(List.fill(10)(BaseBunnyGenerator(Male))).size == 10)
+    assert(nextGenerationBunnies(List.fill(10)(BaseBunnyGenerator(Female))).size == 10)
   }
 
   it should "not contain any of the original bunnies after MAX_AGE generations" in {
@@ -127,7 +127,7 @@ class TestReproduction extends FlatSpec with Matchers {
     bunnies.foreach(b => assert(!nextGen.contains(b)))
   }
 
-  private var genBunnies: Seq[Bunny] = List.fill(bunniesNum)(randomBunnyGenerator())
+  private var genBunnies: Seq[Bunny] = List.fill(bunniesNum)(RandomBunnyGenerator())
 
   "Next generation" should "contain the right number of bunnies after many generations and they should all be alive" in {
     val generations = 8

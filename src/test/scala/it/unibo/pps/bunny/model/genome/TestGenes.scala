@@ -1,7 +1,7 @@
 package it.unibo.pps.bunny.model.genome
 
 import it.unibo.pps.bunny.model._
-import it.unibo.pps.bunny.model.genome.KindsUtils.{assignRandomDominance, getGeneKind, randomAlleleKindChooser, resetDominance, setAlleleDominance}
+import it.unibo.pps.bunny.model.genome.KindsUtils.{assignRandomDominance, getGeneKind, RandomAlleleKindChooser, resetDominance, setAlleleDominance}
 import org.scalatest.{FlatSpec, Matchers}
 
 class TestGenes extends FlatSpec with Matchers {
@@ -69,8 +69,8 @@ class TestGenes extends FlatSpec with Matchers {
   it should "return the right letters" in {
     resetDominance()
     Genes.values.foreach(gk => {
-      val gene = Gene(gk, StandardAllele(randomAlleleKindChooser(gk)), StandardAllele(randomAlleleKindChooser(gk)))
-      val dominant = randomAlleleKindChooser(gk)
+      val gene = Gene(gk, StandardAllele(RandomAlleleKindChooser(gk)), StandardAllele(RandomAlleleKindChooser(gk)))
+      val dominant = RandomAlleleKindChooser(gk)
       setAlleleDominance(dominant)
       val letters = (if (gene.momAllele.kind == dominant) gene.kind.letter.toUpperCase else gene.kind.letter.toLowerCase) +
         (if (gene.dadAllele.kind == dominant) gene.kind.letter.toUpperCase else gene.kind.letter.toLowerCase)

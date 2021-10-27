@@ -16,7 +16,7 @@ import org.scalatest.{ FlatSpec, Matchers }
 class TestFactorsDamage extends FlatSpec with Matchers {
 
   "A population of bunnies" should "be filtered by alleles" in {
-    val bunnies: List[Bunny] = List.fill(50)(randomBunnyGenerator())
+    val bunnies: List[Bunny] = List.fill(50)(RandomBunnyGenerator())
     val firstGene: GeneKind = Genes.FUR_COLOR
     val secondGene: GeneKind = Genes.EARS
     val bunniesWithNormalDamage = filterBunniesWithAlleles(bunnies, firstGene.base, secondGene.base)
@@ -27,7 +27,7 @@ class TestFactorsDamage extends FlatSpec with Matchers {
   }
 
   "UnfriendlyClimate Factor" should "kill 20% of bunnies with Long Fur on Summer" in {
-    val bunnies: List[Bunny] = List.fill(50)(randomBunnyGenerator())
+    val bunnies: List[Bunny] = List.fill(50)(RandomBunnyGenerator())
     val unfriendlyClimateFactor = UnfriendlyClimateFactor()
     val splitBunnies = splitBunniesByGene(Genes.FUR_LENGTH, bunnies)
 
@@ -38,7 +38,7 @@ class TestFactorsDamage extends FlatSpec with Matchers {
   }
 
   it should "kill 20% of bunnies with ShortFur on Winter" in {
-    val bunnies: List[Bunny] = List.fill(50)(randomBunnyGenerator())
+    val bunnies: List[Bunny] = List.fill(50)(RandomBunnyGenerator())
     val factor = UnfriendlyClimateFactor()
     val splitBunnies = splitBunniesByGene(Genes.FUR_LENGTH, bunnies)
 
@@ -50,7 +50,7 @@ class TestFactorsDamage extends FlatSpec with Matchers {
 
   "Wolf Factor" should "kill some bunnies on Summer" in {
     val factor = WolvesFactor()
-    val bunnies: List[Bunny] = List.fill(50)(randomBunnyGenerator())
+    val bunnies: List[Bunny] = List.fill(50)(RandomBunnyGenerator())
     val lowAffectedBunnies = filterBunniesWithAlleles(bunnies, Alleles.BROWN_FUR, Alleles.HIGH_EARS)
     val lowAffectedNumber = (lowAffectedBunnies.length * WOLF_LOW_DAMAGE).round.toInt
     val highAffectedBunnies = filterBunniesWithAlleles(bunnies, Alleles.WHITE_FUR, Alleles.LOW_EARS)
@@ -64,7 +64,7 @@ class TestFactorsDamage extends FlatSpec with Matchers {
 
   it should "kill some bunnies on Winter" in {
     val factor = WolvesFactor()
-    val bunnies: List[Bunny] = List.fill(50)(randomBunnyGenerator())
+    val bunnies: List[Bunny] = List.fill(50)(RandomBunnyGenerator())
     val lowAffectedBunnies = filterBunniesWithAlleles(bunnies, Alleles.WHITE_FUR, Alleles.HIGH_EARS)
     val lowAffectedNumber = (lowAffectedBunnies.length * WOLF_LOW_DAMAGE).round.toInt
     val highAffectedBunnies = filterBunniesWithAlleles(bunnies, Alleles.BROWN_FUR, Alleles.LOW_EARS)
@@ -77,7 +77,7 @@ class TestFactorsDamage extends FlatSpec with Matchers {
   }
 
   "HighFood Factor" should "kill some bunnies on Winter" in {
-    val bunnies: List[Bunny] = List.fill(50)(randomBunnyGenerator())
+    val bunnies: List[Bunny] = List.fill(50)(RandomBunnyGenerator())
     val factor = HighFoodFactor()
 
     val affectedBunnies = splitBunniesByGene(Genes.JUMP, bunnies)._1
@@ -90,7 +90,7 @@ class TestFactorsDamage extends FlatSpec with Matchers {
   }
 
   it should "kill some bunnies on Summer" in {
-    val bunnies: List[Bunny] = List.fill(50)(randomBunnyGenerator())
+    val bunnies: List[Bunny] = List.fill(50)(RandomBunnyGenerator())
     val factor = HighFoodFactor()
 
     val affectedBunnies = splitBunniesByGene(Genes.JUMP, bunnies)._1
@@ -103,7 +103,7 @@ class TestFactorsDamage extends FlatSpec with Matchers {
   }
 
   "LimitedFood Factor" should "kill some bunnies on Winter" in {
-    val bunnies: List[Bunny] = List.fill(50)(randomBunnyGenerator())
+    val bunnies: List[Bunny] = List.fill(50)(RandomBunnyGenerator())
     val factor = LimitedFoodFactor()
 
     assert(
@@ -112,7 +112,7 @@ class TestFactorsDamage extends FlatSpec with Matchers {
   }
 
   it should "kill some bunnies on Summer" in {
-    val bunnies: List[Bunny] = List.fill(50)(randomBunnyGenerator())
+    val bunnies: List[Bunny] = List.fill(50)(RandomBunnyGenerator())
     val factor = LimitedFoodFactor()
 
     val affectedNumber = (bunnies.length * FOOD_FACTOR_NORMAL_DAMAGE).round.toInt
@@ -122,7 +122,7 @@ class TestFactorsDamage extends FlatSpec with Matchers {
   }
 
   "ToughFood Factor" should "kill some bunnies on Winter" in {
-    val bunnies: List[Bunny] = List.fill(50)(randomBunnyGenerator())
+    val bunnies: List[Bunny] = List.fill(50)(RandomBunnyGenerator())
     val factor = ToughFoodFactor()
 
     val affectedBunnies = splitBunniesByGene(Genes.TEETH, bunnies)._1
@@ -133,7 +133,7 @@ class TestFactorsDamage extends FlatSpec with Matchers {
   }
 
   it should "kill some bunnies on Summer" in {
-    val bunnies: List[Bunny] = List.fill(50)(randomBunnyGenerator())
+    val bunnies: List[Bunny] = List.fill(50)(RandomBunnyGenerator())
     val factor = ToughFoodFactor()
 
     val affectedBunnies = splitBunniesByGene(Genes.TEETH, bunnies)._1
@@ -151,14 +151,14 @@ class TestFactorsDamage extends FlatSpec with Matchers {
   }
 
   "HighFood and LimitedFood Factors" should "kill some bunnies on Summer" in {
-    val bunnies: List[Bunny] = List.fill(50)(randomBunnyGenerator())
+    val bunnies: List[Bunny] = List.fill(50)(RandomBunnyGenerator())
     val factor = LimitedHighFoodFactor()
 
     assert(factor.applyDamage(bunnies, Summer).count(!_.alive) == countHighLimitedFoodDamage(bunnies))
   }
 
   it should "kill some bunnies on Winter" in {
-    val bunnies: List[Bunny] = List.fill(50)(randomBunnyGenerator())
+    val bunnies: List[Bunny] = List.fill(50)(RandomBunnyGenerator())
     val factor = LimitedHighFoodFactor()
 
     assert(factor.applyDamage(bunnies, Summer).count(!_.alive) == countHighLimitedFoodDamage(bunnies))
@@ -173,14 +173,14 @@ class TestFactorsDamage extends FlatSpec with Matchers {
   }
 
   "HighFood and ToughFood Factors" should "kill some bunnies on Summer" in {
-    val bunnies: List[Bunny] = List.fill(50)(randomBunnyGenerator())
+    val bunnies: List[Bunny] = List.fill(50)(RandomBunnyGenerator())
     val factor = HighToughFoodFactor()
 
     assert(factor.applyDamage(bunnies, Summer).count(!_.alive) == countHighToughFoodDamage(bunnies))
   }
 
   it should "kill some bunnies on Winter" in {
-    val bunnies: List[Bunny] = List.fill(50)(randomBunnyGenerator())
+    val bunnies: List[Bunny] = List.fill(50)(RandomBunnyGenerator())
     val factor = HighToughFoodFactor()
 
     assert(factor.applyDamage(bunnies, Winter).count(!_.alive) == countHighToughFoodDamage(bunnies))
@@ -194,14 +194,14 @@ class TestFactorsDamage extends FlatSpec with Matchers {
   }
 
   "ToughFood and LimitedFood Factors" should "kill some bunnies on Summer" in {
-    val bunnies: List[Bunny] = List.fill(50)(randomBunnyGenerator())
+    val bunnies: List[Bunny] = List.fill(50)(RandomBunnyGenerator())
     val factor = LimitedToughFoodFactor()
 
     assert(factor.applyDamage(bunnies, Summer).count(!_.alive) == countLimitedToughFoodDamage(bunnies))
   }
 
   it should "kill some bunnies on Winter" in {
-    val bunnies: List[Bunny] = List.fill(50)(randomBunnyGenerator())
+    val bunnies: List[Bunny] = List.fill(50)(RandomBunnyGenerator())
     val factor = LimitedToughFoodFactor()
 
     assert(factor.applyDamage(bunnies, Winter).count(!_.alive) == countLimitedToughFoodDamage(bunnies))
@@ -218,14 +218,14 @@ class TestFactorsDamage extends FlatSpec with Matchers {
   }
 
   "LimitedFood, HighFood and ToughFood" should "kill some bunnies on Summer" in {
-    val bunnies: List[Bunny] = List.fill(50)(randomBunnyGenerator())
+    val bunnies: List[Bunny] = List.fill(50)(RandomBunnyGenerator())
     val factor = LimitedHighToughFoodFactor()
 
     assert(factor.applyDamage(bunnies, Summer).count(!_.alive) == countLimitedHighToughFoodDamage(bunnies))
   }
 
   it should "kill some bunnies on Winter" in {
-    val bunnies: List[Bunny] = List.fill(50)(randomBunnyGenerator())
+    val bunnies: List[Bunny] = List.fill(50)(RandomBunnyGenerator())
     val factor = LimitedHighToughFoodFactor()
 
     assert(factor.applyDamage(bunnies, Winter).count(!_.alive) == countLimitedHighToughFoodDamage(bunnies))

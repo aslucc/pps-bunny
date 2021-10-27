@@ -4,7 +4,7 @@ import it.unibo.pps.bunny.engine.SimulationConstants.MAX_BUNNY_AGE
 import it.unibo.pps.bunny.model.HistoryBunnyUpdateException
 import it.unibo.pps.bunny.model.genome.Alleles.AlleleKind
 import it.unibo.pps.bunny.model.genome.Genes.GeneKind
-import it.unibo.pps.bunny.model.genome.KindsUtils.randomAlleleKindChooser
+import it.unibo.pps.bunny.model.genome.KindsUtils.RandomAlleleKindChooser
 import it.unibo.pps.bunny.model.genome._
 import it.unibo.pps.bunny.model.world.Generation.Population
 import it.unibo.pps.bunny.util.PimpScala.RichSeq
@@ -86,12 +86,12 @@ object Bunny {
   /**
    * Function to get a random gender for the Bunny.
    */
-  val randomGenderChooser: () => Gender = () => Seq(Male, Female).random
+  val RandomGenderChooser: () => Gender = () => Seq(Male, Female).random
 
   /**
    * Generator for a [[Bunny]] with the "base" [[AlleleKind]] for each [[GeneKind]]
    */
-  val baseBunnyGenerator: Gender => FirstBunny = gender =>
+  val BaseBunnyGenerator: Gender => FirstBunny = gender =>
     new FirstBunny(
       CompleteGenotype(
         Genes.values.unsorted.map(gk => (gk, Gene(gk, StandardAllele(gk.base), StandardAllele(gk.base)))).toMap
@@ -102,16 +102,16 @@ object Bunny {
   /**
    * Generator for a [[Bunny]] with a random [[AlleleKind]] for each [[GeneKind]]
    */
-  val randomBunnyGenerator: () => FirstBunny = () => {
+  val RandomBunnyGenerator: () => FirstBunny = () => {
     new FirstBunny(
       CompleteGenotype(
         Genes.values.unsorted
           .map(gk => {
-            (gk, Gene(gk, StandardAllele(randomAlleleKindChooser(gk)), StandardAllele(randomAlleleKindChooser(gk))))
+            (gk, Gene(gk, StandardAllele(RandomAlleleKindChooser(gk)), StandardAllele(RandomAlleleKindChooser(gk))))
           })
           .toMap
       ),
-      randomGenderChooser()
+      RandomGenderChooser()
     )
   }
 

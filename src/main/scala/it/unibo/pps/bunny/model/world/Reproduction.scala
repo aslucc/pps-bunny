@@ -2,7 +2,7 @@ package it.unibo.pps.bunny.model.world
 
 import it.unibo.pps.bunny.engine.SimulationConstants._
 import it.unibo.pps.bunny.model._
-import it.unibo.pps.bunny.model.bunny.Bunny.baseBunnyGenerator
+import it.unibo.pps.bunny.model.bunny.Bunny.BaseBunnyGenerator
 import it.unibo.pps.bunny.model.bunny._
 import it.unibo.pps.bunny.model.genome._
 import it.unibo.pps.bunny.model.world.Environment.Mutations
@@ -103,6 +103,6 @@ object Reproduction {
    * Generator for the first two bunnies of the simulation
    */
   val initialCoupleGenerator: () => Couple =
-    () => Couple(mom = baseBunnyGenerator(Female), dad = baseBunnyGenerator(Male))
+    () => Couple(mom = BaseBunnyGenerator(Female), dad = BaseBunnyGenerator(Male))
 
 }

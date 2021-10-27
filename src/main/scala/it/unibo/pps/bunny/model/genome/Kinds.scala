@@ -93,10 +93,10 @@ object Genes extends Enumeration {
 object KindsUtils {
 
   /** Function to get a random [[AlleleKind]] for the specified [[GeneKind]] */
-  val randomAlleleKindChooser: GeneKind => AlleleKind = geneKind => Seq(geneKind.base, geneKind.mutated).random
+  val RandomAlleleKindChooser: GeneKind => AlleleKind = geneKind => Seq(geneKind.base, geneKind.mutated).random
 
   /** Method that randomly chooses one [[AlleleKind]] as Dominant for each [[GeneKind]] */
-  def assignRandomDominance(): Unit = Genes.values.foreach(gk => setAlleleDominance(randomAlleleKindChooser(gk)))
+  def assignRandomDominance(): Unit = Genes.values.foreach(gk => setAlleleDominance(RandomAlleleKindChooser(gk)))
 
   /**
    * Sets an [[AlleleKind]] as dominant for a specific [[GeneKind]]
