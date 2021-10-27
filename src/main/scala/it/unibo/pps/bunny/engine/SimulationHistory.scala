@@ -2,7 +2,7 @@ package it.unibo.pps.bunny.engine
 
 import it.unibo.pps.bunny.engine.SimulationConstants._
 import it.unibo.pps.bunny.model.world.Generation.Population
-import it.unibo.pps.bunny.model.world.Reproduction.{ initialCoupleGenerator, nextGenerationBunnies }
+import it.unibo.pps.bunny.model.world.Reproduction.{ InitialCoupleGenerator, nextGenerationBunnies }
 import it.unibo.pps.bunny.model.world._
 
 import scala.language.implicitConversions
@@ -12,19 +12,19 @@ object SimulationHistory {
   type History = List[Generation]
 
   /** Function that resets the history */
-  val historyInit: () => History = () => List(Generation(Environment(Summer, List()), initialCoupleGenerator().toSeq))
+  val HistoryInit: () => History = () => List(Generation(Environment(Summer, List()), InitialCoupleGenerator().toSeq))
 
   /** History actual value */
-  var history: History = historyInit()
+  var History: History = HistoryInit()
 
   /** Resets history to the initial value */
-  def resetHistory(): Unit = history = historyInit()
+  def resetHistory(): Unit = History = HistoryInit()
 
   /** @return the actual [[Generation]] */
-  def getActualGeneration: Generation = history.head
+  def getActualGeneration: Generation = History.head
 
   /** @return how many generation have been lived */
-  def getGenerationNumber: Int = history.length - 1
+  def getGenerationNumber: Int = History.length - 1
 
   /** @return how many bunnies are alive in the actual generation */
   def getActualBunniesNumber: Int = getActualGeneration.getAliveBunniesNumber
@@ -47,7 +47,7 @@ object SimulationHistory {
   /** Terminate the actual [[Generation]] and starts the next one */
   def startNextGeneration(): Unit = {
     getActualGeneration.terminate()
-    history = Generation(getEnvironmentForNextGeneration, getPopulationForNextGeneration) :: history
+    History = Generation(getEnvironmentForNextGeneration, getPopulationForNextGeneration) :: History
   }
 
   /** @return the [[Population]] for the next [[Generation]] */

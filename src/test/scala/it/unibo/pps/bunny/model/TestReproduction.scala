@@ -54,7 +54,7 @@ class TestReproduction extends FlatSpec with Matchers {
     assert(bunniesInCouples.isEmpty)
   }
 
-  private val couple: Couple = initialCoupleGenerator()
+  private val couple: Couple = InitialCoupleGenerator()
   private val children: Seq[Bunny] = generateChildren(couple)
 
   "Children of a couple" should "be in the right amount" in {

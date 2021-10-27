@@ -110,7 +110,7 @@ class ProportionsChartController(
   }
 
   private def changeGeneration(generationNumber: Int): Unit = {
-    val generation = SimulationHistory.history(SimulationHistory.getGenerationNumber - generationNumber)
+    val generation = SimulationHistory.History(SimulationHistory.getGenerationNumber - generationNumber)
     displayedGenerationNumber = generationNumber
     genText.text = s"Generazione $displayedGenerationNumber"
     currentPie.title = "Fine Generazione"

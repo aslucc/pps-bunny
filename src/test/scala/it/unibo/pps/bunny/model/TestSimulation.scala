@@ -36,7 +36,7 @@ class TestSimulation extends FlatSpec with Matchers {
   }
 
   it should "be the only Generation in the history" in {
-    assert(SimulationHistory.history.size == 1)
+    assert(SimulationHistory.History.size == 1)
   }
 
   "The second generation" should "have the same climate of the previous one" in {
@@ -57,11 +57,11 @@ class TestSimulation extends FlatSpec with Matchers {
   "At the fifth generation the initial couple of bunnies" should "be dead" in {
     goToGenerationNumber(4)
     assert(getGenerationNumber == 4)
-    assert(SimulationHistory.history.last.population.forall(!_.alive))
+    assert(SimulationHistory.History.last.population.forall(!_.alive))
   }
 
   "The actual generation" should "be the only Generation in history that isn't already is over" in {
-    SimulationHistory.history match {
+    SimulationHistory.History match {
       case h :: t => assert(!h.isOver && t.forall(_.isOver))
       case _      => fail()
     }
@@ -101,7 +101,7 @@ class TestSimulation extends FlatSpec with Matchers {
     goToGenerationNumber(6)
     getActualPopulation.tail.foreach(_.kill())
     SimulationHistory.startNextGeneration()
-    assert(SimulationHistory.history.head.getAliveBunniesNumber == 1)
+    assert(SimulationHistory.History.head.getAliveBunniesNumber == 1)
   }
 
   it should "have a next generation" in {

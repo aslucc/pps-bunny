@@ -116,7 +116,7 @@ object Reproduction {
   /**
    * Generator for the first two bunnies of the simulation
    */
-  val initialCoupleGenerator: () => Couple =
+  val InitialCoupleGenerator: () => Couple =
     () => Couple(mom = BaseBunnyGenerator(Female), dad = BaseBunnyGenerator(Male))
 
 }
