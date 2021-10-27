@@ -7,6 +7,7 @@ import it.unibo.pps.bunny.model.genome.Genes.GeneKind
 import it.unibo.pps.bunny.model.genome.KindsUtils.RandomAlleleKindChooser
 import it.unibo.pps.bunny.model.genome._
 import it.unibo.pps.bunny.model.world.Generation.Population
+import it.unibo.pps.bunny.model.world.Reproduction.Couple
 import it.unibo.pps.bunny.util.PimpScala.RichSeq
 
 sealed trait Gender
@@ -98,6 +99,12 @@ object Bunny {
       ),
       gender
     )
+
+  /**
+   * Generator for a [[ChildBunny]] with a specific [[Genotype]], [[Gender]] and parents (a [[Couple]]
+   */
+  val ChildBunnyGenerator: (Genotype, Gender, Couple) => ChildBunny =
+    (genotype, gender, parents) => ChildBunny(CompleteGenotype(genotype.genes), Option(parents.mom), Option(parents.dad), gender)
 
   /**
    * Generator for a [[Bunny]] with a random [[AlleleKind]] for each [[GeneKind]]

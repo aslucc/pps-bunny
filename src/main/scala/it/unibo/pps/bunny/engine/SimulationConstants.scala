@@ -24,6 +24,9 @@ object SimulationConstants {
   /** Number of children for each couple of bunnies */
   val CHILDREN_FOR_EACH_COUPLE: Int = 4
 
+  /** Number of mutated children for each couple (when there is a mutation*/
+  val MUTATED_BUNNIES_FOR_EACH_COUPLE: Int = CHILDREN_FOR_EACH_COUPLE / 4
+
   /** Maximum number of generation which each bunny can live */
   val MAX_BUNNY_AGE: Int = 4
 

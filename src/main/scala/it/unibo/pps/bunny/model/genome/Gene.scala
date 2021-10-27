@@ -78,6 +78,11 @@ object Gene {
   private val checkKind: (GeneKind, Allele) => Boolean = (kind, allele) => getGeneKind(allele.kind) == kind
 
   /**
+   * Generates a Gene with a mutation.
+   */
+  val MutatedGeneGenerator: GeneKind => Gene = gk => Gene(gk, JustMutatedAllele(gk.mutated), JustMutatedAllele(gk.mutated))
+
+  /**
    * Represents a Standard Gene of a specific Bunny.
    * @param kind
    *   the kind of Gene
