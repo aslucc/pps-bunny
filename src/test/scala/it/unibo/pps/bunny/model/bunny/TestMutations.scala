@@ -9,7 +9,7 @@ import it.unibo.pps.bunny.model.world.Reproduction._
 import org.scalatest.{FlatSpec, Matchers}
 
 class TestMutations extends FlatSpec with Matchers {
-  private val couple: Couple = initialCoupleGenerator()
+  private val couple: Couple = InitialCoupleGenerator()
   private val children: Population = generateChildren(couple)
   private val mutationFurColor: Mutation = dominantMutation(Genes.FUR_COLOR)
   private val mutationFurLength: Mutation = recessiveMutation(Genes.FUR_LENGTH)

@@ -22,7 +22,7 @@ class TestTree extends FlatSpec with Matchers {
   }
 
   private val bunnyWithParents: Bunny =
-    nextGenerationBunnies(List.fill(2)(initialCoupleGenerator()).flatMap(_.toSeq)).filter(_.mom ?).head
+    nextGenerationBunnies(List.fill(2)(InitialCoupleGenerator()).flatMap(_.toSeq)).filter(_.mom ?).head
   private val tree: BinaryTree[Bunny] = generateTree(MAX_GENEALOGICAL_TREE_GENERATIONS, bunnyWithParents)
 
   it should "contain his parents, if the bunny has them" in {
@@ -37,7 +37,7 @@ class TestTree extends FlatSpec with Matchers {
 
   private var bunnies: Population = Seq(RandomBunnyGenerator())
   for (_ <- 0 to MAX_GENEALOGICAL_TREE_GENERATIONS) {
-    bunnies = nextGenerationBunnies(bunnies ++ initialCoupleGenerator().toSeq)
+    bunnies = nextGenerationBunnies(bunnies ++ InitialCoupleGenerator().toSeq)
   }
   private val bunny: Bunny = bunnies.sortBy(actualGenerations).reverse.head
   private val fullTree: BinaryTree[Bunny] = generateTree(MAX_GENEALOGICAL_TREE_GENERATIONS, bunny)
