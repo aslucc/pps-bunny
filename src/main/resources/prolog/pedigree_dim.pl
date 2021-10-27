@@ -21,13 +21,13 @@ bunny_size_unlimited(H, W, BP, BI, BF, G, BSW) :-
 
 % bunny_size (+Height, +Width, +BunnyPlusProportion, +BunnyInfoProportion, +BunnyFontProportion, +MaxBunnySize, MinBunnySize, +Generations, -BunnySize)
 % Calculates the maximum bunny size to fit in the width and the height with min and max limitations for the bunny size.
-bunny_size(H, W, BP, BI, BF, MaxBS, MinBS, G, MaxBS):-
+bunny_size(H, W, BP, BI, BF, MaxBS, _, G, MaxBS):-
 	bunny_size_unlimited(H, W, BP, BI, BF, G, PBS),
 	PBS >= MaxBS, !.
-bunny_size(H, W, BP, BI, BF, MaxBS, MinBS, G, MinBS):-
+bunny_size(H, W, BP, BI, BF, _, MinBS, G, MinBS):-
 	bunny_size_unlimited(H, W, BP, BI, BF, G, PBS),
 	PBS =< MinBS, !.
-bunny_size(H, W, BP, BI, BF, MaxBS, MinBS, G, BS):-
+bunny_size(H, W, BP, BI, BF, _, _, G, BS):-
 	bunny_size_unlimited(H, W, BP, BI, BF, G, BS).
 
 % max_generations_for_width(+Width, +BunnyPlusProportion, +BunnySize, -Generations)
