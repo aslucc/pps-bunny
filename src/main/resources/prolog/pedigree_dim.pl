@@ -16,8 +16,7 @@ bunny_size_unlimited(H, W, BP, BI, BF, G, BSH) :-
 	BSH =< BSW, !.
 bunny_size_unlimited(H, W, BP, BI, BF, G, BSW) :-
 	max_bunny_size_for_width(W, BP, G, BSW),
-	max_bunny_size_for_height(H, BI, BF, G, BSH),
-	BSW < BSH.
+	max_bunny_size_for_height(H, BI, BF, G, BSH).
 
 % bunny_size (+Height, +Width, +BunnyPlusProportion, +BunnyInfoProportion, +BunnyFontProportion, +MaxBunnySize, MinBunnySize, +Generations, -BunnySize)
 % Calculates the maximum bunny size to fit in the width and the height with min and max limitations for the bunny size.
@@ -48,8 +47,7 @@ generations(H, W, BP, BI, BF, BS, GH):-
 	GH =< GW, !.
 generations(H, W, BP, BI, BF, BS, GW):-
 	max_generations_for_width(W, BP, BS, GW),
-	max_generations_for_height(H, BI, BF, BS, GH),
-	GW < GH.
+	max_generations_for_height(H, BI, BF, BS, GH).
 
 % pedigree_dimensions (+Height, +Width, +BunnyPlusProportion, +BunnyInfoProportion, +BunnyFontProportion, +MaxBunnySize, +MinBunnySize, +Generations, -BunnySize, -FinalGenerations)
 % Calculates the bunny size and the generations that can fit in the width and the height trying to maximize both with respect of min and max limitations in bunny size.
